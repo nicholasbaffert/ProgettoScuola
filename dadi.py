@@ -2,67 +2,80 @@ import random
 import time
 
 def animazione_lancio():
-    print("\n🎲 Sto lanciando il dado...")
-    for i in range(5):
+    print("\n🎲 Il croupier lancia i dadi...")
+    for _ in range(3):
         print("...")
         time.sleep(0.3)
 
-def lancia_dado():
+def lancia_dadi():
     animazione_lancio()
-    risultato = random.randint(1, 6)
-    print(f"👉 Il dado ha mostrato: {risultato}")
-    return risultato
-
-def mostra_storico(storico):
-    print("\n📜 Storico dei lanci:")
-    for i, valore in enumerate(storico, start=1):
-        print(f"Tentativo {i}: {valore}")
-
-def mostra_statistiche(tentativi, vittorie):
-    print("\n📊 STATISTICHE:")
-    print(f"- Tentativi totali: {tentativi}")
-    print(f"- Vittorie: {vittorie}")
-    
-    if tentativi > 0:
-        percentuale = (vittorie / tentativi) * 100
-        print(f"- Percentuale di vittoria: {percentuale:.2f}%")
+    d1 = random.randint(1, 6)
+    d2 = random.randint(1, 6)
+    totale = d1 + d2
+    print(f"👉 Risultato: {d1} + {d2} = {totale}")
+    return totale
 
 def gioco():
-    print("=== 🎮 GIOCO DEL DADO ===")
-    print("Regola: fai 6 per vincere!\n")
+    print("=== 🎰 CRAPS REALISTICO ===")
+    print("Regole: vinci subito con 7 o 11, perdi con 2, 3, 12.\n")
 
-    tentativi = 0
-    vittorie = 0
-    storico = []
+    soldi = 100
 
     while True:
-        scelta = input("\nVuoi lanciare il dado? (s/n/stat): ").lower()
-
-        if scelta == "s":
-            tentativi += 1
-            risultato = lancia_dado()
-            storico.append(risultato)
-
-            print(f"🎯 Tentativo numero: {tentativi}")
-
-            if risultato == 6:
-                print("🎉 GRANDISSIMO! Hai fatto 6!")
-                vittorie += 1
-            else:
-                print("😢 Niente 6... riprova!")
-
-        elif scelta == "stat":
-            mostra_statistiche(tentativi, vittorie)
-            mostra_storico(storico)
-
-        elif scelta == "n":
-            print("\n👋 Fine gioco!")
-            mostra_statistiche(tentativi, vittorie)
+        print(f"\n💰 Soldi attuali: €{soldi}")
+        
+        if soldi <= 0:
+            print("💀 Hai finito i soldi!")
             break
 
+        scelta = input("Vuoi puntare e lanciare? (s/n): ").lower()
+
+        if scelta == "n":
+            print("👋 Hai lasciato il tavolo.")
+            break
+
+        if scelta != "s":
+            print("❌ Scrivi 's' o 'n'")
+            continue
+
+        puntata = 10
+        soldi -= puntata
+        print(f"🎲 Hai puntato €{puntata}")
+
+        risultato = lancia_dadi()
+
+     
+        if risultato in (7, 11):
+            vincita = puntata * 2
+            soldi += vincita
+            print(f"🎉 HAI VINTO! +€{vincita}")
+
+        elif risultato in (2, 3, 12):
+            print("💀 Hai perso la puntata!")
+
         else:
-            print("❌ Scelta non valida! Scrivi 's', 'n' oppure 'stat'.")
+            punto = risultato
+            print(f"📌 Punto: {punto}")
+
+            while True:
+                input("Premi INVIO per rilanciare...")
+                r = lancia_dadi()
+
+                if r == punto:
+                    vincita = puntata * 2
+                    soldi += vincita
+                    print(f"🎉 HAI RIFATTO IL PUNTO! +€{vincita}")
+                    break
+
+                elif r == 7:
+                    print("💀 7 out! Hai perso!")
+                    break
+
+                else:
+                    print("🔁 Si continua...")
+
+    print("\n🏁 Fine partita")
+    print(f"💰 Soldi finali: €{soldi}")
 
 if __name__ == "__main__":
     gioco()
-
