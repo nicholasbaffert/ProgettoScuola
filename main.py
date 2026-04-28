@@ -1,25 +1,50 @@
-from utils import clear
+from utils import clear, login_o_registrazione, aggiorna_saldo_utente
 import time
 
 def main():
+    clear()
+    print("=== BENVENUTO AL CASINO CONSOLE ===")
+    username, saldo = login_o_registrazione()
+    time.sleep(1.5)
+
     while True:
         clear()
-        print("=== 3M: Quiz & Mini-Game ===")
-        print("1) Gioca al quiz")
-        print("2) Sfida dei dadi")
-        print("3) Raccontami una barzelletta")
-        print("4) Statistiche")
+        print(f"--- Utente: {username} - Saldo: {saldo}€ ---")  
+        print("1) Roulette 🎡")
+        print("2) Dadi 🎲")
+        print("3) Blackjack 🃏")
+        print("4) Statistiche (Coming Soon)")
         print("5) Esci")
+        try:
+            scelta = int(input("\nInserisci Scelta (1-5): "))
 
-        scelta:int=int(input("Inserisci Scelta: (1-5)")) 
-        if scelta < 1 or scelta > 6:
-            print()
-            print("Scelta non valida")
-            print()
-            time.sleep(0.5)
+        except ValueError:
+            print("Inserisci un numero valido!")
+            time.sleep(1)
             continue
 
-            
-if __name__ == '__main__':
-    main()
+        if scelta == 1:
+            print("Avvio Roulette...")
+            time.sleep(1)
+        
+        elif scelta == 2:
+            print("Avvio Sfida dei Dadi...")
+            puntata = 10
+            if saldo >= puntata:
+                saldo = saldo - puntata
+                aggiorna_saldo_utente(username, saldo)
+            else:
+                print("Saldo insufficiente!")
+            time.sleep(1)
 
+        elif scelta == 5:
+            print(f"Salvataggio dati... Grazie per aver giocato, {username}!")
+            aggiorna_saldo_utente(username, saldo)
+            break
+        
+        else:
+            print("Scelta non valida")
+            time.sleep(1)
+
+if __name__ == "__main__":
+    main()
