@@ -170,6 +170,7 @@ Ritorno al menu o uscita
 - random → numeri casuali
 - time → pause ed effetti (opzionale)
 - colorama → colori in console (opzionale)
+- json → salvataggio utente e saldo
 
 ---
 
