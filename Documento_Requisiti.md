@@ -1,180 +1,112 @@
-# ==========================================================
-# 🎰 DOCUMENTO DEI REQUISITI
-# Progetto: Casino Console – Mini Gambling Games
-# ==========================================================
+# 🎰 Documento dei Requisiti  
+## Progetto: Casino Console – Mini Gambling Games
 
+---
 
-# ----------------------------------------------------------
-# 1. TITOLO DEL PROGETTO
-# ----------------------------------------------------------
-# Casino Console – Mini Gambling Games
+## 1. 📌 Titolo del progetto
+Casino Console – Mini Gambling Games
 
+---
 
-# ----------------------------------------------------------
-# 2. OBIETTIVO
-# ----------------------------------------------------------
-# Il programma offre un sistema a console che permette
-# all’utente di simulare un’esperienza da casino.
-# Include giochi come roulette, dadi e blackjack,
-# con gestione del saldo e delle puntate.
+## 2. 🎯 Obiettivo
+Il programma simula un piccolo casinò in console.
 
+L’utente può giocare a diversi mini-giochi, effettuare puntate e gestire un saldo virtuale.
 
-# ----------------------------------------------------------
-# 3. ATTORI
-# ----------------------------------------------------------
-# - Utente / Giocatore
-# - Sistema (app console)
+Il progetto serve per esercitarsi con:
+- programmazione in Python
+- logica dei giochi
+- gestione input/output
+- strutturazione modulare del codice
 
+---
 
-# ----------------------------------------------------------
-# 4. REQUISITI FUNZIONALI
-# ----------------------------------------------------------
-# Il sistema deve:
-#
-# - Avviare un menu principale interattivo
-# - Consentire la scelta tra più giochi:
-#     • Roulette
-#     • Dadi
-#     • Blackjack
-# - Gestire un saldo iniziale del giocatore
-# - Permettere all’utente di:
-#     • effettuare puntate
-#     • prendere decisioni di gioco (es. hit/stand)
-# - Generare risultati casuali (modulo random)
-# - Calcolare vincite e perdite
-# - Aggiornare il saldo in tempo reale
-# - Impedire puntate superiori al saldo
-# - Mostrare messaggi di vittoria/sconfitta
-# - Consentire di tornare al menu o uscire
+## 3. 👥 Attori
+- Utente / Giocatore
+- Sistema (applicazione console)
 
+---
 
-# ----------------------------------------------------------
-# 5. REQUISITI NON FUNZIONALI
-# ----------------------------------------------------------
-# - Interfaccia a console chiara e leggibile
-# - Codice modulare e organizzato:
-#     • main.py → menu e flusso principale
-#     • roulette.py → logica roulette
-#     • dice.py → gioco dadi
-#     • blackjack.py → logica blackjack
-#     • utils.py → funzioni di supporto
-# - Gestione errori:
-#     • input non validi
-#     • valori fuori range
-# - Codice commentato e comprensibile
-# - Esecuzione veloce e senza blocchi
+## 4. ⚙️ Requisiti funzionali
 
+Il sistema deve:
 
-# ----------------------------------------------------------
-# 6. LOGICA DI GIOCO
-# ----------------------------------------------------------
+- Avviare un menu principale interattivo
+- Consentire la scelta tra i giochi:
+  - 🎡 Roulette
+  - 🎲 Dadi
+  - 🃏 Blackjack
+- Gestire un saldo iniziale del giocatore
+- Permettere di effettuare puntate
+- Gestire decisioni di gioco (es. hit / stand nel blackjack)
+- Generare risultati casuali (random)
+- Calcolare vincite e perdite
+- Aggiornare il saldo in tempo reale
+- Bloccare puntate superiori al saldo disponibile
+- Mostrare esito di ogni partita
+- Permettere di tornare al menu o uscire
 
-# 🎡 ROULETTE
-# - Numeri da 0 a 36
-# - Tipi di puntata:
-#     • Rosso/Nero → payout x2
-#     • Pari/Dispari → payout x2
-#     • Numero secco → payout x35
+---
 
+## 5. 🧱 Requisiti non funzionali
 
-# 🎲 DADI
-# - Lancio di 2 dadi (1–6)
-# - Regole base:
-#     • Somma > 7 → vittoria
-#     • Somma ≤ 7 → sconfitta
+- Interfaccia testuale chiara e leggibile
+- Codice modulare e separato in file:
+  - `main.py` → menu e flusso principale
+  - `roulette.py` → logica roulette
+  - `dice.py` → gioco dadi
+  - `blackjack.py` → logica blackjack
+  - `utils.py` → funzioni di supporto
+- Gestione robusta degli errori:
+  - input non valido
+  - valori fuori range
+- Codice commentato e comprensibile
+- Esecuzione veloce senza blocchi
 
+---
 
-# 🃏 BLACKJACK
-# - Obiettivo: ottenere un punteggio il più vicino possibile a 21
-#   senza superarlo
-# - Il giocatore può:
-#     • chiedere carta (hit)
-#     • fermarsi (stand)
-# - Il banco gioca automaticamente secondo regole base
-# - Valori carte:
-#     • Carte numeriche → valore nominale
-#     • Figure → 10
-#     • Asso → 1 o 11
-# - Risultati:
-#     • >21 → sconfitta (bust)
-#     • migliore del banco → vittoria
-#     • uguale → pareggio
+## 6. 🎮 Logica dei giochi
 
+### 🎡 Roulette
+- Numeri da 0 a 36
+- Tipi di puntata:
+  - Rosso/Nero → x2
+  - Pari/Dispari → x2
+  - Numero singolo → x35
 
-# ----------------------------------------------------------
-# 7. GESTIONE SALDO
-# ----------------------------------------------------------
-# - Saldo iniziale (es. 100)
-# - Ogni puntata viene sottratta
-# - Vincite aggiunte al saldo
-# - Se saldo = 0 → fine gioco (Game Over)
+---
 
+### 🎲 Dadi
+- Lancio di 2 dadi (1–6)
+- Regola base:
+  - Somma > 7 → vittoria
+  - Somma ≤ 7 → sconfitta
 
-# ----------------------------------------------------------
-# 8. STRUTTURA DEL PROGETTO
-# ----------------------------------------------------------
-#
-# casino_project/
-# │
-# ├── main.py
-# ├── roulette.py
-# ├── dice.py
-# ├── blackjack.py
-# ├── utils.py
-# └── README.md
-#
+---
 
+### 🃏 Blackjack
+- Obiettivo: arrivare il più vicino possibile a 21 senza superarlo
+- Azioni:
+  - hit → pescare carta
+  - stand → fermarsi
+- Valori carte:
+  - numeri → valore nominale
+  - figure → 10
+  - asso → 1 o 11
+- Risultati:
+  - >21 → sconfitta (bust)
+  - migliore del banco → vittoria
+  - uguale → pareggio
 
-# ----------------------------------------------------------
-# 9. FLUSSO DEL PROGRAMMA
-# ----------------------------------------------------------
-#
-# Avvio programma
-# ↓
-# Menu principale
-# ↓
-# Scelta gioco
-# ↓
-# Inserimento puntata
-# ↓
-# Esecuzione gioco
-# ↓
-# Aggiornamento saldo
-# ↓
-# Mostra risultato
-# ↓
-# Ritorno al menu o uscita
-#
+---
 
+## 7. 💰 Sistema di saldo
 
-# ----------------------------------------------------------
-# 10. GESTIONE ERRORI
-# ----------------------------------------------------------
-# - Bloccare input non numerici
-# - Impedire puntate negative o superiori al saldo
-# - Richiedere reinserimento dati
+- Saldo iniziale (es. 100)
+- Ogni puntata viene sottratta
+- Le vincite vengono aggiunte al saldo
+- Se saldo = 0 → Game Over
 
+---
 
-# ----------------------------------------------------------
-# 11. ESTENSIONI FUTURE
-# ----------------------------------------------------------
-# - Salvataggio saldo su file
-# - Sistema livelli
-# - Statistiche (win/loss)
-# - Interfaccia grafica (tkinter)
-# - Colori in console (colorama)
-# - Multiplayer locale
-
-
-# ----------------------------------------------------------
-# 12. CRONOPROGRAMMA
-# ----------------------------------------------------------
-# Settimana 1 → progettazione e requisiti
-# Settimana 2 → menu + gestione saldo
-# Settimana 3 → sviluppo giochi
-# Settimana 4 → test e miglioramenti
-
-
-# ==========================================================
-# FINE DOCUMENTO
-# ==========================================================
+## 8. 📁 Struttura del progetto
