@@ -15,7 +15,7 @@
 # ----------------------------------------------------------
 # Il programma offre un sistema a console che permette
 # all’utente di simulare un’esperienza da casino.
-# Include giochi come roulette, dadi e slot machine,
+# Include giochi come roulette, dadi e blackjack,
 # con gestione del saldo e delle puntate.
 
 
@@ -35,11 +35,11 @@
 # - Consentire la scelta tra più giochi:
 #     • Roulette
 #     • Dadi
-#     • Slot machine (opzionale)
+#     • Blackjack
 # - Gestire un saldo iniziale del giocatore
 # - Permettere all’utente di:
 #     • effettuare puntate
-#     • scegliere il tipo di scommessa
+#     • prendere decisioni di gioco (es. hit/stand)
 # - Generare risultati casuali (modulo random)
 # - Calcolare vincite e perdite
 # - Aggiornare il saldo in tempo reale
@@ -56,7 +56,7 @@
 #     • main.py → menu e flusso principale
 #     • roulette.py → logica roulette
 #     • dice.py → gioco dadi
-#     • slot.py → slot machine (opzionale)
+#     • blackjack.py → logica blackjack
 #     • utils.py → funzioni di supporto
 # - Gestione errori:
 #     • input non validi
@@ -76,17 +76,29 @@
 #     • Pari/Dispari → payout x2
 #     • Numero secco → payout x35
 
+
 # 🎲 DADI
 # - Lancio di 2 dadi (1–6)
 # - Regole base:
 #     • Somma > 7 → vittoria
 #     • Somma ≤ 7 → sconfitta
 
-# 🎰 SLOT MACHINE (opzionale)
-# - 3 simboli casuali
-# - Combinazioni:
-#     • 3 uguali → grande vincita
-#     • 2 uguali → piccola vincita
+
+# 🃏 BLACKJACK
+# - Obiettivo: ottenere un punteggio il più vicino possibile a 21
+#   senza superarlo
+# - Il giocatore può:
+#     • chiedere carta (hit)
+#     • fermarsi (stand)
+# - Il banco gioca automaticamente secondo regole base
+# - Valori carte:
+#     • Carte numeriche → valore nominale
+#     • Figure → 10
+#     • Asso → 1 o 11
+# - Risultati:
+#     • >21 → sconfitta (bust)
+#     • migliore del banco → vittoria
+#     • uguale → pareggio
 
 
 # ----------------------------------------------------------
@@ -107,7 +119,7 @@
 # ├── main.py
 # ├── roulette.py
 # ├── dice.py
-# ├── slot.py
+# ├── blackjack.py
 # ├── utils.py
 # └── README.md
 #
