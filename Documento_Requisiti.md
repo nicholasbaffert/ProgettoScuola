@@ -41,12 +41,7 @@ Il sistema deve:
 
 ## 5. 🧱 Requisiti non funzionali
 - Interfaccia testuale semplice e leggibile
-- Codice modulare in file separati:
-  - main.py
-  - roulette.py
-  - dice.py
-  - blackjack.py
-  - utils.py
+- Codice modulare in file separati
 - Gestione robusta degli errori:
   - input non valido
   - valori fuori range
