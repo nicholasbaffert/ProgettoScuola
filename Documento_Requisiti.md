@@ -63,7 +63,7 @@ Il sistema deve:
 - Puntate:
   - Rosso/Nero → x2
   - Pari/Dispari → x2
-  - Numero secco → x35
+  - Numero secco → x36
 
 ---
 
