@@ -13,14 +13,6 @@ Il progetto simula un casinò in ambiente console.
 
 L’utente può giocare a diversi giochi d’azzardo virtuali, gestire un saldo iniziale e effettuare puntate.
 
-L’obiettivo è esercitarsi con:
-- programmazione Python
-- gestione input/output
-- logica dei giochi
-- strutturazione modulare del codice
-- uso di numeri casuali
-
----
 
 ## 3. 👥 Attori
 - Utente / Giocatore  
@@ -49,12 +41,7 @@ Il sistema deve:
 
 ## 5. 🧱 Requisiti non funzionali
 - Interfaccia testuale semplice e leggibile
-- Codice modulare in file separati:
-  - main.py
-  - roulette.py
-  - dice.py
-  - blackjack.py
-  - utils.py
+- Codice modulare in file separati
 - Gestione robusta degli errori:
   - input non valido
   - valori fuori range
@@ -71,7 +58,7 @@ Il sistema deve:
 - Puntate:
   - Rosso/Nero → x2
   - Pari/Dispari → x2
-  - Numero secco → x35
+  - Numero secco → x36
 
 ---
 
@@ -93,7 +80,7 @@ Il sistema deve:
   - figure → 10
   - asso → 1 o 11
 - Esiti:
-  - >21 → sconfitta
+  - 21 → sconfitta
   - più vicino del banco → vittoria
   - pari → pareggio
 

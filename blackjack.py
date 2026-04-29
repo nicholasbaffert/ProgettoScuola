@@ -1,88 +1,400 @@
 import random
+import tkinter as tk
+from tkinter import messagebox
 
-semi_carte = {'Cuori': '♥️', 'Quadri': '♦️', 'Fiori': '♣️', 'Picche': '♠️'} # Definizione dei semi delle carte
-lista_carte = ['Asso', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Fante', 'Regina', 'Re'] # Definizione dei valori delle carte
-mazzo = [] # Inizializzazione del mazzo
-for seme in semi_carte.keys(): # Cicla su ogni seme
-    for carta in lista_carte: # Cicla su ogni valore
-        mazzo.append((carta, seme)) # Definizione del mazzo completa da 52 carte
 
-def valore_carta(carta_tupla): # Definizione delle carte delle figure
-    nome_carta = carta_tupla[0]
-    if nome_carta in ['Fante', 'Regina', 'Re']: 
-        return 10
-    elif nome_carta == 'Asso':
-        return 11
-    else:
-        return int(nome_carta)
+class BlackjackApp:
 
-def mostra_mano(nome, carte, punteggio, nascondi_seconda=False):
-    print(f"\n--- {nome.upper()} ---")
-    
-    if nascondi_seconda:
-        valore, seme = carte[0]
-        print(f"🎴 Carte: {valore} di {semi_carte[seme]} , [CARTA COPERTA]")
-        print(f"🔢 Punteggio visibile: {valore_carta(carte[0])}")
-    else:
-        stringa = []
-        for valore, simbolo in carte:
-            stringa.append(f"{valore} di {semi_carte[simbolo]}")
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Blackjack")
+        self.root.geometry("500x550")
+        self.root.configure(bg="#2c3e50")
+
+        # Dati del mazzo
+        self.semi_carte = {
+            "Cuori": "♥️",
+            "Quadri": "♦️",
+            "Fiori": "♣️",
+            "Picche": "♠️",
+        }
+        self.lista_carte = [
+            "Asso",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "Fante",
+            "Regina",
+            "Re",
+        ]
+
+        # Creazione UI
+        self.crea_interfaccia()
+
+        # Avvio prima partita
+        self.avvia_nuova_partita()
+
+    def crea_interfaccia(self):
+        # Titolo
+        titolo = tk.Label(
+            self.root,
+            text="🃏 BLACKJACK 🃏",
+            font=("Helvetica", 24, "bold"),
+            bg="#2c3e50",
+            fg="white",
+        )
+        titolo.pack(pady=10)
+
+        # Area Banco
+        self.frame_banco = tk.LabelFrame(
+            self.root,
+            text="BANCO",
+            font=("Helvetica", 12, "bold"),
+            bg="#34495e",
+            fg="white",
+            padx=10,
+            pady=10,
+        )
+        self.frame_banco.pack(fill="x", padx=20, pady=10)
+
+        self.lbl_carte_banco = tk.Label(
+            self.frame_banco,
+            text="",
+            font=("Helvetica", 12),
+            bg="#34495e",
+            fg="white",
+            wraplength=400,
+            justify="center",
+        )
+        self.lbl_carte_banco.pack(pady=5)
+
+        self.lbl_punti_banco = tk.Label(
+            self.frame_banco,
+            text="",
+            font=("Helvetica", 11, "italic"),
+            bg="#34495e",
+            fg="#bdc3c7",
+        )
+        self.lbl_punti_banco.pack()
+
+        # Area Giocatore
+        self.frame_giocatore = tk.LabelFrame(
+            self.root,
+            text="GIOCATORE",
+            font=("Helvetica", 12, "bold"),
+            bg="#34495e",
+            fg="white",
+            padx=10,
+            pady=10,
+        )
+        self.frame_giocatore.pack(fill="x", padx=20, pady=10)
+
+        self.lbl_carte_giocatore = tk.Label(
+            self.frame_giocatore,
+            text="",
+            font=("Helvetica", 12),
+            bg="#34495e",
+            fg="white",
+            wraplength=400,
+            justify="center",
+        )
+        self.lbl_carte_giocatore.pack(pady=5)
+
+        self.lbl_punti_giocatore = tk.Label(
+            self.frame_giocatore,
+            text="",
+            font=("Helvetica", 11, "italic"),
+            bg="#34495e",
+            fg="#bdc3c7",
+        )
+        self.lbl_punti_giocatore.pack()
+
+        # Area Pulsanti di Gioco
+        self.frame_pulsanti = tk.Frame(self.root, bg="#2c3e50")
+        self.frame_pulsanti.pack(pady=15)
+
+        self.btn_hit = tk.Button(
+            self.frame_pulsanti,
+            text="Carta (Hit)",
+            font=("Helvetica", 12, "bold"),
+            bg="#2ecc71",
+            fg="white",
+            width=12,
+            command=self.hit,
+        )
+        self.btn_hit.grid(row=0, column=0, padx=10)
+
+        self.btn_stand = tk.Button(
+            self.frame_pulsanti,
+            text="Stai (Stand)",
+            font=("Helvetica", 12, "bold"),
+            bg="#e74c3c",
+            fg="white",
+            width=12,
+            command=self.stand,
+        )
+        self.btn_stand.grid(row=0, column=1, padx=10)
+
+        # Pulsante Nuova Partita
+        self.btn_restart = tk.Button(
+            self.root,
+            text="Nuova Partita",
+            font=("Helvetica", 12, "bold"),
+            bg="#3498db",
+            fg="white",
+            command=self.avvia_nuova_partita,
+        )
+        self.btn_restart.pack(pady=10)
+
+    def inizializza_mazzo(self):
+        mazzo = []
+        for seme in self.semi_carte.keys():
+            for carta in self.lista_carte:
+                mazzo.append((carta, seme))
+        random.shuffle(mazzo)
+        return mazzo
+
+    def valore_carta(self, carta_tupla):
+        nome_carta = carta_tupla[0]
+        if nome_carta in ["Fante", "Regina", "Re"]:
+            return 10
+        elif nome_carta == "Asso":
+            return 11
+        else:
+            return int(nome_carta)
+
+    def calcola_punteggio(self, mano):
+        punteggio = sum(self.valore_carta(carta) for carta in mano)
+        num_assi = sum(1 for carta in mano if carta[0] == "Asso")
+
+        while punteggio > 21 and num_assi > 0:
+            punteggio -= 10
+            num_assi -= 1
+        return punteggio
+
+    def formatta_mano(self, mano):
+        return " , ".join(
+            [f"{valore} di {self.semi_carte[seme]}" for valore, seme in mano]
+        )
+
+    def avvia_nuova_partita(self):
+        # Setup iniziale dati
+        self.mazzo = self.inizializza_mazzo()
+        self.carte_giocatore = [self.mazzo.pop(), self.mazzo.pop()]
+        self.carte_banco = [self.mazzo.pop(), self.mazzo.pop()]
+
+        # Ripristino bottoni
+        self.btn_hit.config(state="normal")
+        self.btn_stand.config(state="normal")
+
+        # Controllo Blackjack immediato
+        punti_g = self.calcola_punteggio(self.carte_giocatore)
+        punti_b = self.calcola_punteggio(self.carte_banco)
+
+        if punti_g == 21 or punti_b == 21:
+            self.aggiorna_grafica(nascondi_banco=False)
+            self.concludi_partita()
+        else:
+            self.aggiorna_grafica(nascondi_banco=True)
+
+    def aggiorna_grafica(self, nascondi_banco=True):
+        # Aggiornamento Giocatore
+        punti_g = self.calcola_punteggio(self.carte_giocatore)
+        self.lbl_carte_giocatore.config(
+            text=f"🎴 Carte: {self.formatta_mano(self.carte_giocatore)}"
+        )
+        self.lbl_punti_giocatore.config(text=f"🔢 Punteggio totale: {punti_g}")
+
+        # Aggiornamento Banco
+        if nascondi_banco:
+            valore, seme = self.carte_banco[0]
+            mano_coperta = (
+                f"{valore} di {self.semi_carte[seme]} , [CARTA COPERTA]"
+            )
+            self.lbl_carte_banco.config(text=f"🎴 Carte: {mano_coperta}")
+            self.lbl_punti_banco.config(
+                text=f"🔢 Punteggio visibile: {self.valore_carta(self.carte_banco[0])}"
+            )
+        else:
+            punti_b = self.calcola_punteggio(self.carte_banco)
+            self.lbl_carte_banco.config(
+                text=f"🎴 Carte: {self.formatta_mano(self.carte_banco)}"
+            )
+            self.lbl_punti_banco.config(text=f"🔢 Punteggio totale: {punti_b}")
+
+    def hit(self):
+        self.carte_giocatore.append(self.mazzo.pop())
+        punteggio = self.calcola_punteggio(self.carte_giocatore)
+
+        if punteggio >= 21:
+            self.btn_hit.config(state="disabled")
+            self.btn_stand.config(state="disabled")
+            self.aggiorna_grafica(nascondi_banco=False)
+            self.concludi_partita()
+        else:
+            self.aggiorna_grafica(nascondi_banco=True)
+
+    def stand(self):
+        self.btn_hit.config(state="disabled")
+        self.btn_stand.config(state="disabled")
+
+        punteggio_banco = self.calcola_punteggio(self.carte_banco)
+        while punteggio_banco < 17:
+            self.carte_banco.append(self.mazzo.pop())
+            punteggio_banco = self.calcola_punteggio(self.carte_banco)
+
+        self.aggiorna_grafica(nascondi_banco=False)
+        self.concludi_partita()
+
+    def concludi_partita(self):
+        punti_g = self.calcola_punteggio(self.carte_giocatore)
+        punti_b = self.calcola_punteggio(self.carte_banco)
+
+        msg = ""
+
+        if punti_g == 21 and len(self.carte_giocatore) == 2:
+            if punti_b == 21 and len(self.carte_banco) == 2:
+                msg = "🤝 Entrambi Blackjack! Pareggio."
+            else:
+                msg = "🏆 BLACKJACK! Hai vinto subito!"
+        elif punti_b == 21 and len(self.carte_banco) == 2:
+            msg = "📉 Il Banco ha fatto Blackjack. Hai perso."
+        elif punti_g > 21:
+            msg = "📉 Hai sballato! Il Banco vince."
+        elif punti_b > 21:
+            msg = "🏆 Il Giocatore vince! (Il Banco ha sballato)"
+        elif punti_g > punti_b:
+            msg = "🏆 Il Giocatore vince!"
+        elif punti_b > punti_g:
+            msg = "📉 Il Banco vince."
+        else:
+            msg = "🤝 È un pareggio!"
+
+        messagebox.showinfo("Risultato Finale", msg)
+
+
+# Esecuzione dell'applicazione
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = BlackjackApp(root)
+    root.mainloop()
+
+# import random
+
+# semi_carte = {'Cuori': '♥️', 'Quadri': '♦️', 'Fiori': '♣️', 'Picche': '♠️'} # Definizione dei semi delle carte
+# lista_carte = ['Asso', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Fante', 'Regina', 'Re'] # Definizione dei valori delle carte
+# mazzo = [] # Inizializzazione del mazzo
+# for seme in semi_carte.keys(): # Cicla su ogni seme
+#     for carta in lista_carte: # Cicla su ogni valore
+#         mazzo.append((carta, seme)) # Definizione del mazzo completa da 52 carte
+
+
+# def valore_carta(carta_tupla): # Definizione delle carte delle figure
+#     nome_carta = carta_tupla[0]
+#     if nome_carta in ['Fante', 'Regina', 'Re']:
+#         return 10
+#     elif nome_carta == 'Asso':
+#         return 11
+#     else:
+#         return int(nome_carta)
+
+
+# def calcola_punteggio(mano):
+#     punteggio = 0
+#     for carta in mano:
+#         punteggio = punteggio + valore_carta(carta)
+#     num_assi = 0
+#     for carta in mano:
+#         if carta[0] == 'Asso':
+#             num_assi = num_assi + 1
+#     while punteggio > 21 and num_assi > 0:
+#         punteggio = punteggio - 10
+#         num_assi = num_assi - 1
+#     return punteggio
+
+
+# def mostra_mano(nome, carte, punteggio, nascondi_seconda=False):
+#     print(f"\n--- {nome.upper()} ---")
+   
+#     if nascondi_seconda:
+#         valore, seme = carte[0]
+#         print(f"🎴 Carte: {valore} di {semi_carte[seme]} , [CARTA COPERTA]")
+#         print(f"🔢 Punteggio visibile: {valore_carta(carte[0])}")
+#     else:
+#         stringa = []
+#         for valore, simbolo in carte:
+#             stringa.append(f"{valore} di {semi_carte[simbolo]}")
+       
+#         print(f"🎴 Carte: {' , '.join(stringa)}")
+#         print(f"🔢 Punteggio totale: {punteggio}")
+
+
+
+
+# random.shuffle(mazzo) # Mischia il mazzo
+# carte_giocatore = [mazzo.pop(), mazzo.pop()] # Distribuisce le carte al giocatore
+# carte_banco = [mazzo.pop(), mazzo.pop()] # Distribuisce le carte al banco
+
+# punteggio_giocatore = calcola_punteggio(carte_giocatore)
+# punteggio_banco = calcola_punteggio(carte_banco)
+
+# BLACKJACK_GIOCATORE = (punteggio_giocatore == 21)
+# BLACKJACK_BANCO = (punteggio_banco == 21)
+
+# if not BLACKJACK_GIOCATORE and not BLACKJACK_BANCO:
+#     while True:
+#         punteggio_giocatore = calcola_punteggio(carte_giocatore)
+#         mostra_mano("Giocatore", carte_giocatore, punteggio_giocatore)
+#         mostra_mano("Banco", carte_banco, punteggio_banco, nascondi_seconda=True)
+
+#         if punteggio_giocatore >= 21:
+#             break
+
+#         scelta = input("Cosa vuoi fare?\n'hit' per chiedere un\'altra carta, 'stand' per fermarti: ")
+#         scelta = scelta.lower()
         
-        print(f"🎴 Carte: {' , '.join(stringa)}")
-        print(f"🔢 Punteggio totale: {punteggio}")
+#         if scelta == "hit":
+#             nuova_carta = mazzo.pop()
+#             carte_giocatore.append(nuova_carta)
+#         elif scelta == "stand":
+#             break
+#         else:
+#             print("Scelta non valida")
+#             continue
+
+# if punteggio_giocatore <= 21 and not BLACKJACK_GIOCATORE:
+#     while punteggio_banco < 17:
+#         nuova_carta = mazzo.pop()
+#         carte_banco.append(nuova_carta)
+#         punteggio_banco = calcola_punteggio(carte_banco)
 
 
-random.shuffle(mazzo) # Mischia il mazzo
-carte_giocatore = [mazzo.pop(), mazzo.pop()] # Distribuisce le carte al giocatore
-carte_banco = [mazzo.pop(), mazzo.pop()] # Distribuisce le carte al banco
+# print("\n" + "="*30)
+# print("RISULTATO FINALE")
+# print("="*30)
+# mostra_mano("Giocatore", carte_giocatore, punteggio_giocatore)
+# mostra_mano("Banco", carte_banco, punteggio_banco)
 
-while True:
-    punteggio_giocatore = 0
-    punteggio_banco = 0
 
-    for carta in carte_giocatore:
-        valore = valore_carta(carta)
-        punteggio_giocatore = punteggio_giocatore + valore
-    
-    for carta in carte_banco:
-        valore = valore_carta(carta)
-        punteggio_banco = punteggio_banco + valore
-    
-    mostra_mano("Giocatore", carte_giocatore, punteggio_giocatore)
-    mostra_mano("Banco", carte_banco, punteggio_banco, nascondi_seconda=True)
-
-    if punteggio_giocatore > 21:
-        print("Il Banco vince")
-        break
-
-    scelta = input("Cosa vuoi fare?\n'carta' per chiedere un\'altra carta, 'stai' per fermarti: ")
-    scelta = scelta.lower()
-    if scelta == "carta":
-        nuova_carta = mazzo.pop()
-        carte_giocatore.append(nuova_carta)
-    elif scelta == "stai":
-        break
-    else:
-        print("Scelta non valida")
-        continue
-
-if punteggio_giocatore <= 21:
-    while punteggio_banco < 17:
-        nuova_carta = mazzo.pop()
-        carte_banco.append(nuova_carta)
-        punteggio_banco = punteggio_banco + valore_carta(nuova_carta)
-
-print("\n" + "="*30)
-print("RISULTATO FINALE")
-print("="*30)
-mostra_mano("Giocatore", carte_giocatore, punteggio_giocatore)
-mostra_mano("Banco", carte_banco, punteggio_banco)
-
-if punteggio_banco > 21:
-        print("\n🏆 Il Giocatore vince!  (Il Banco ha sballato)")
-elif punteggio_giocatore > punteggio_banco:
-        print("\n🏆 Il Giocatore vince!")
-elif punteggio_banco > punteggio_giocatore:
-        print("\n📉 Il Banco vince")
-else:
-        print("\n🤝 È un pareggio!")
+# if BLACKJACK_GIOCATORE and BLACKJACK_BANCO:
+#     print("\n🤝 Entrambi Blackjack! Pareggio.")
+# elif BLACKJACK_GIOCATORE:
+#     print("\n🏆 BLACKJACK! Hai vinto subito!")
+# elif BLACKJACK_BANCO:
+#     print("\n📉 Il Banco ha fatto Blackjack. Hai perso.")
+# elif punteggio_giocatore > 21:
+#     print("\n📉 Hai sballato! Il Banco vince")
+# elif punteggio_banco > 21:
+#     print("\n🏆 Il Giocatore vince! (Il Banco ha sballato)")
+# elif punteggio_giocatore > punteggio_banco:
+#     print("\n🏆 Il Giocatore vince!")
+# elif punteggio_banco > punteggio_giocatore:
+#     print("\n📉 Il Banco vince")
+# else:
+#     print("\n🤝 È un pareggio!")
