@@ -41,12 +41,7 @@ Il sistema deve:
 
 ## 5. 🧱 Requisiti non funzionali
 - Interfaccia testuale semplice e leggibile
-- Codice modulare in file separati:
-  - main.py
-  - roulette.py
-  - dice.py
-  - blackjack.py
-  - utils.py
+- Codice modulare in file separati
 - Gestione robusta degli errori:
   - input non valido
   - valori fuori range
@@ -85,7 +80,7 @@ Il sistema deve:
   - figure → 10
   - asso → 1 o 11
 - Esiti:
-  - >21 → sconfitta
+  - 21 → sconfitta
   - più vicino del banco → vittoria
   - pari → pareggio
 
