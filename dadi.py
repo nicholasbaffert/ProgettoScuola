@@ -25,17 +25,17 @@ def gioco():
         print(f"\n💰 Soldi attuali: €{soldi}")
         
         if soldi <= 0:
-            print("💀 Hai finito i soldi!")
+            print("s Hai finito i soldi!")
             break
 
         scelta = input("Vuoi puntare e lanciare? (s/n): ").lower()
 
         if scelta == "n":
-            print("👋 Hai lasciato il tavolo.")
+            print(" Hai lasciato il tavolo.")
             break
 
         if scelta != "s":
-            print("❌ Scrivi 's' o 'n'")
+            print(" Scrivi 's' o 'n'")
             continue
 
         puntata = 10
@@ -48,14 +48,14 @@ def gioco():
         if risultato in (7, 11):
             vincita = puntata * 2
             soldi += vincita
-            print(f"🎉 HAI VINTO! +€{vincita}")
+            print(f" HAI VINTO! +€{vincita}")
 
         elif risultato in (2, 3, 12):
             print("💀 Hai perso la puntata!")
 
         else:
             punto = risultato
-            print(f"📌 Punto: {punto}")
+            print(f" Punto: {punto}")
 
             while True:
                 input("Premi INVIO per rilanciare...")
@@ -64,7 +64,7 @@ def gioco():
                 if r == punto:
                     vincita = puntata * 2
                     soldi += vincita
-                    print(f"🎉 HAI RIFATTO IL PUNTO! +€{vincita}")
+                    print(f" HAI RIFATTO IL PUNTO! +€{vincita}")
                     break
 
                 elif r == 7:
