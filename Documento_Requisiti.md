@@ -13,14 +13,6 @@ Il progetto simula un casinò in ambiente console.
 
 L’utente può giocare a diversi giochi d’azzardo virtuali, gestire un saldo iniziale e effettuare puntate.
 
-L’obiettivo è esercitarsi con:
-- programmazione Python
-- gestione input/output
-- logica dei giochi
-- strutturazione modulare del codice
-- uso di numeri casuali
-
----
 
 ## 3. 👥 Attori
 - Utente / Giocatore  
