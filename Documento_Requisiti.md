@@ -80,7 +80,7 @@ Il sistema deve:
   - figure → 10
   - asso → 1 o 11
 - Esiti:
-  -  >21 → sconfitta
+  - 21 → sconfitta
   - più vicino del banco → vittoria
   - pari → pareggio
 
