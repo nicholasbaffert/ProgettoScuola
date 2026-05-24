@@ -29,5 +29,5 @@ Durante lo sviluppo abbiamo dovuto affrontare alcuni problemi:
 * **Sincronizzazione dei file**: Lavorando in tre sullo stesso codice, abbiamo imparato a gestire i conflitti di merge su GitHub, dividendo accuratamente le funzioni in file separati.
 
 ## 5. Conclusioni e Sviluppi Futuri
-Siamo molto soddisfatti del software ottenuto. Rispetta tutti i requisiti stabiliti all'inizio del lavoro.
+Siamo soddisfatti del risultato ottenuto. Rispetta tutti i requisiti stabiliti all'inizio del lavoro.
 In futuro il progetto potrebbe essere ampliato aggiungendo un sistema multiplayer locale.
