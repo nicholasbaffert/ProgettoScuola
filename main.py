@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt      # Disegna e mostra i grafici a schermo
 # Importazione delle sale da gioco dalle rispettive cartelle/file
 from Game.roulette import Roulette  
 from Game import blackjack           # <-- IMPORTAZIONE DEL FILE BLACKJACK DEL TUO COMPAGNO
+from Game import dadi                # <-- IMPORTAZIONE GIOCO DADI
 
 
 DB_FILE = "utenti.json"              # Nome del file che fa da database per i soldi
@@ -203,7 +204,7 @@ class CasinoApp:
         btn_roulette = tk.Button(self.container, text="Roulette 🎡", command=self.avvia_roulette_game, **stile_bottone_gioco)
         btn_roulette.pack(pady=6, ipady=7, padx=40, fill="x")
         
-        btn_dadi = tk.Button(self.container, text="Lancio dei Dadi 🎲  (-10€)", command=self.gioca_dadi, **stile_bottone_gioco)
+        btn_dadi = tk.Button(self.container, text="Lancio dei Dadi 🎲", command=self.gioca_dadi, **stile_bottone_gioco)
         btn_dadi.pack(pady=6, ipady=7, padx=40, fill="x")
         
         btn_blackjack = tk.Button(self.container, text="Blackjack 🃏", command=self.avvia_blackjack_game, **stile_bottone_gioco)
@@ -292,36 +293,28 @@ class CasinoApp:
         salva_dati(dati)                              # Salva le modifiche sul database JSON
 
     def gioca_dadi(self):
-        """ Minigioco istantaneo dei dadi incorporato """
-        costo = 10                               
+        """ Nasconde il menu e apre il gioco dei Dadi in finestra dedicata """
+        self.root.withdraw()                     
+        dadi.start_game(self.root, self.saldo_attuale, self.aggiorna_saldo_da_dadi)
+
+    def aggiorna_saldo_da_dadi(self, nuovo_saldo):
+        """ AGGIORNATO: Funzione automatica chiamata dai Dadi alla chiusura """
+        variazione = nuovo_saldo - self.saldo_attuale  # Calcola l'esito finanziario della sessione
+        self.saldo_attuale = nuovo_saldo              # Sincronizza il saldo locale
         
-        if self.saldo_attuale >= costo:          
-            self.saldo_attuale -= costo          
-            
-            vinto = random.choice([True, False]) 
-            
-            if vinto:
-                premio = 25                      
-                self.saldo_attuale += premio     
-                variazione = premio - costo      
-                messagebox.showinfo("Dadi", "Complimenti! Hai vinto ai dadi!\nGuadagno netto: +15€")
-            else:
-                variazione = -costo              
-                messagebox.showinfo("Dadi", "Ritenta, la fortuna non era dalla tua!\nPerdita: -10€")
-            
-            self.label_info.config(text=f"👤 {self.utente_attuale}     |     💰 {self.saldo_attuale}€")
-            
-            dati = carica_dati()                 
-            dati[self.utente_attuale]["saldo"] = self.saldo_attuale 
-            
-            dati[self.utente_attuale]["cronologia"].append({
-                "gioco": "Dadi",
-                "variazione": variazione,
-                "saldo_risultante": self.saldo_attuale
-            })
-            salva_dati(dati)                     
-        else:
-            messagebox.showerror("Errore", "Saldo insufficiente per giocare a questa slot!")
+        self.root.deiconify()                         # Rende di nuovo visibile questo menu principale
+        self.label_info.config(text=f"👤 {self.utente_attuale}     |     💰 {self.saldo_attuale}€")
+        
+        dati = carica_dati()
+        dati[self.utente_attuale]["saldo"] = self.saldo_attuale
+        
+        # Inserisce la giocata a Dadi nel file per visualizzarla sulle linee del grafico
+        dati[self.utente_attuale]["cronologia"].append({
+            "gioco": "Dadi",
+            "variazione": variazione,
+            "saldo_risultante": self.saldo_attuale
+        })
+        salva_dati(dati)                              # Salva le modifiche sul database JSON
 
 
 # ==============================================================================
@@ -347,7 +340,7 @@ class CasinoApp:
         plt.rcParams['ytick.color'] = '#b3b3b3'
         
         fig, ax = plt.subplots(figsize=(9, 4.5))
-        fig.patch.set_facecolor('#1a1a1a') 
+        fig.set_facecolor('#1a1a1a') 
         ax.set_facecolor('#262626')       
         
         # Disegna la linea dell'andamento (colore Oro lucido con marker bianchi)

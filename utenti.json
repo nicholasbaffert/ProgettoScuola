@@ -73,5 +73,30 @@
                 "saldo_risultante": 975
             }
         ]
+    },
+    "alexander": {
+        "saldo": 1665,
+        "cronologia": [
+            {
+                "gioco": "Inizio",
+                "variazione": 0,
+                "saldo_risultante": 1000
+            },
+            {
+                "gioco": "Blackjack",
+                "variazione": 750,
+                "saldo_risultante": 1750
+            },
+            {
+                "gioco": "Dadi",
+                "variazione": 15,
+                "saldo_risultante": 1765
+            },
+            {
+                "gioco": "Roulette",
+                "variazione": -100,
+                "saldo_risultante": 1665
+            }
+        ]
     }
 }

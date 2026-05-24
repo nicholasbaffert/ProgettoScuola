@@ -45,7 +45,7 @@ class Roulette:
 
     def _setup_grafica(self):
         # Titolo
-        lbl_titolo = tk.Label(self.window, text="🎲 THE BIG ROULETTE 🎲", font=("Helvetica", 20, "bold"), fg="white", bg="#2c5d38")
+        lbl_titolo = tk.Label(self.window, text="🎲 3M ROULETTE 🎲", font=("Helvetica", 20, "bold"), fg="white", bg="#2c5d38")
         lbl_titolo.pack(pady=10)
 
         # Canvas per il tabellone dei numeri

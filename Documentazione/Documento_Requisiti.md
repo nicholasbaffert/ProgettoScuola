@@ -142,11 +142,13 @@ Casino-Project/
 ├── utenti.json                       # Database degli utenti (creato automaticamente)
 ├── requirements.txt                  # Dipendenze Python
 ├── install_dependencies.bat          # Script automatico per installare dipendenze
+├── README.md                         # Documentazione del progetto
+├── LICENSE                           # Licenza MIT
 │
 ├── Game/
 │   ├── __init__.py
 │   ├── roulette.py                   # Logica della Roulette
-│   ├── dadi_tkinter.py               # Minigioco dei Dadi
+│   ├── dadi.py                       # Gioco dei Dadi con GUI
 │   └── blackjack.py                  # Logica del Blackjack
 │
 └── Documentazione/

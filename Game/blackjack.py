@@ -397,6 +397,12 @@ class BlackjackApp:
         self.aggiorna_saldo_da_gioco(self.saldo_attuale)
 
 
+# Funzione di avvio per main.py
+def start_game(root, saldo_attuale, aggiorna_saldo_callback):
+    """Avvia una nuova partita di Blackjack"""
+    BlackjackApp(root, saldo_attuale, aggiorna_saldo_callback)
+
+
 if __name__ == "__main__":
     root = tk.Tk()
 
