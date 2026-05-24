@@ -13,7 +13,7 @@ Siamo partiti da zero con le seguenti idee:
 ## 2. Architettura e Sviluppo del Codice
 Per mantenere il codice pulito e collaborare al meglio con Git  abbiamo diviso il progetto con questo schema modulare:
 * `main.py`: Il punto di ingresso del programma che gestisce il menu interattivo principale.
-* `mainroulette.py` e `Game/`: File e cartelle dedicati alla logica specifica dei singoli giochi.
+* `Game/`: File e cartelle dedicati alla logica specifica dei singoli giochi.
 * `utenti.json`: File utilizzato per la persistenza dei dati, permettendo di salvare il saldo dei giocatori.
 * `utils.py`: Funzioni di supporto riutilizzabili per il controllo e la convalida dell'input utente.
 
